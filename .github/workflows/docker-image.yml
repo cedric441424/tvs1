@@ -1,4 +1,4 @@
-name: Build zhangjiain/tvs1 image
+name: Build tvs1 image
 
 on:
   workflow_run:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build zhangjiain/tvs1 image
+    name: Build tvs1 image
     runs-on: ubuntu-latest
     if: (github.event.workflow_run.conclusion == 'success' && github.repository == 'zhangjiain/tvs1') || (github.repository == 'zhangjiain/tvs1')
 
@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push cedric6/tvs1 image
+      - name: Build and push tvs1 image
         uses: docker/build-push-action@v6.14.0
         with:
           context: .
