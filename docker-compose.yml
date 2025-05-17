@@ -1,0 +1,10 @@
+version: '3'
+services:
+  TVS1:
+    image: TVS1/TVS1:latest
+    container_name: TVS1
+    ports:
+      - "7788:80"
+    environment:
+      - PASSWORD=TVS1
+    restart: unless-stopped
