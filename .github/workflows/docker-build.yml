@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push cedric441424/tvs1 image
+      - name: Build and push cedric6/tvs1 image
         uses: docker/build-push-action@v6.14.0
         with:
           context: .
