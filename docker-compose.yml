@@ -1,7 +1,7 @@
 version: '3'
 services:
   TVS1:
-    image: cedric441424/tvs1:latest
+    image: zhangjiain/tvs1:latest
     container_name: TVS1
     ports:
       - "7788:80"
