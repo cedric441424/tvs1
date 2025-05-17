@@ -10,59 +10,6 @@
 
 TVS1 是一个轻量级、免费的在线视频搜索与观看平台，提供来自多个视频源的内容搜索与播放服务。无需注册，即开即用，支持多种设备访问。项目结合了前端技术和后端代理功能，可部署在支持服务端功能的各类网站托管服务上。
 
-本项目基于 [bestK/tv](https://github.com/bestK/tv) 进行重构与增强。
-
-<details>
-  <summary>点击查看项目截图</summary>
-  <img src="https://github.com/user-attachments/assets/df485345-e83b-4564-adf7-0680be92d3c7" alt="项目截图" style="max-width:600px">
-</details>
-
-## 🥇 感谢赞助
-
-- **[YXVM](https://yxvm.com)**  
-- **[VTEXS](https://vtexs.com)**
-
-## 🚀 快速部署
-
-选择以下任一平台，点击一键部署按钮，即可快速创建自己的 TVS1 实例：
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLibreSpark%2FTVS1) [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/LibreSpark/TVS1) 
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/LibreSpark/TVS1) 
-
-## ⚠️ 请勿使用 Pull Bot 自动同步
-
-Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护。作者可能会直接拉黑所有 Pull Bot 自动发起的同步请求的仓库所有者。
-
-**推荐做法：**
-
-建议在 fork 的仓库中启用本仓库自带的 GitHub Actions 自动同步功能（见 `.github/workflows/sync.yml`）。 
-
-如需手动同步主仓库更新，也可以使用 GitHub 官方的 [Sync fork](https://docs.github.com/cn/github/collaborating-with-issues-and-pull-requests/syncing-a-fork) 功能。
-
-
-## 📋 详细部署指南
-
-### Cloudflare Pages
-
-1. Fork 或克隆本仓库到您的 GitHub 账户
-2. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)，进入 Pages 服务
-3. 点击"创建项目"，连接您的 GitHub 仓库
-4. 使用以下设置：
-   - 构建命令：留空（无需构建）
-   - 输出目录：留空（默认为根目录）
-5. 点击"保存并部署"
-6. 可选：在"设置" > "环境变量"中配置密码保护
-
-### Vercel
-
-1. Fork 或克隆本仓库到您的 GitHub/GitLab 账户
-2. 登录 [Vercel](https://vercel.com/)，点击"New Project"
-3. 导入您的仓库，使用默认设置
-4. 点击"Deploy"
-5. 可选：在"Settings" > "Environment Variables"中配置密码保护
-
-
 ### Docker
 
 使用 Docker 运行 TVS1：
@@ -70,12 +17,12 @@ Pull Bot 会反复触发无效的 PR 和垃圾邮件，严重干扰项目维护�
 ```bash
 docker run -d \
   --name TVS1 \
-  -p 8899:80 \
+  -p 7788:80 \
   -e PASSWORD=your_password_here \
-  bestzwei/TVS1:latest
+  zhangjiain/tvs1:latest
 ```
 
-访问 `http://localhost:8899` 即可使用。
+访问 `http://localhost:7788` 即可使用。
 
 ### Docker Compose
 
@@ -85,12 +32,12 @@ docker run -d \
 version: '3'
 services:
   TVS1:
-    image: bestzwei/TVS1:latest
+    image: zhangjiain/tvs1:latest
     container_name: TVS1
     ports:
-      - "8899:80"
+      - "7788:80"
     environment:
-      - PASSWORD=111111
+      - PASSWORD=TVS1
     restart: unless-stopped
 ```
 
@@ -117,13 +64,9 @@ npm run dev
 **环境变量名**: `PASSWORD` 
 **值**: 您想设置的密码
 
-各平台设置方法：
+平台设置方法：
 
-- **Cloudflare Pages**: Dashboard > 您的项目 > 设置 > 环境变量
-- **Vercel**: Dashboard > 您的项目 > Settings > Environment Variables
-- **Netlify**: Dashboard > 您的项目 > Site settings > Build & deploy > Environment
 - **Docker**: 使用 `-e PASSWORD=your_password` 参数
-- **本地开发**: SET PASSWORD=your_password
 
 ### API兼容性
 
