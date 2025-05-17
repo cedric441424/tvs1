@@ -21,9 +21,9 @@ jobs:
         id: set-tag
         run: |
           if [ "${{ github.repository }}" = "cedric441424/tvs1" ]; then
-            echo "IMAGE_TAG=cedric441424/tvs1:latest" >> $GITHUB_OUTPUT
+            echo "IMAGE_TAG=cedric6/tvs1:tagname" >> $GITHUB_OUTPUT
           else
-            echo "IMAGE_TAG=cedric441424/tvs1-beta:latest" >> $GITHUB_OUTPUT
+            echo "IMAGE_TAG=cedric6/tvs1-beta:tagnamet" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up Docker QEMU
