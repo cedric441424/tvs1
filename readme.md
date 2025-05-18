@@ -24,7 +24,7 @@ docker run -d \
 
 访问 `http://localhost:7788` 即可使用。
 
-### Docker指令部署
+### Docker Compose 一键部署（强烈推荐）
 ### 1.使用Git Clone命令
 
 ```
@@ -58,12 +58,11 @@ docker-compose up -d
 
 ### 5.结束
 
-即可访问网站： `http://localhost:7788`
+即可访问网站： `http://localhost:7788` 密码默认是TVS1
 
 ### 6.温馨提示：
 
-请使用非大陆机部署，以免造成不必要的麻烦！
-例如：无法使用（即无法搜索） 或 无法访问
+💡 请使用非大陆机部署，以免造成不必要的麻烦！例如：无法使用（即无法搜索） 或 无法访问
 
 ### Docker Compose
 
