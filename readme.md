@@ -18,7 +18,7 @@ TVS1 是一个轻量级、免费的在线视频搜索与观看平台，提供来
 docker run -d \
   --name TVS1 \
   -p 7788:80 \
-  -e PASSWORD=your_password_here \
+  -e PASSWORD=TVS1
   zhangjiain/tvs1:latest
 ```
 
