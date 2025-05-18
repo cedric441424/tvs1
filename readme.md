@@ -24,6 +24,47 @@ docker run -d \
 
 访问 `http://localhost:7788` 即可使用。
 
+### Docker指令部署
+### 1.使用Git Clone命令
+
+```
+git clone https://github.com/zhangjiain/tvs1.git
+```
+
+若提示报错 请到 https://github.akams.cn/ 选择能用的加速网址 使用前，先点击【节点检测】，选择延迟少的那个，再选择【Git Clone】
+
+### 2.打开下载好的文件
+
+```
+cd tvs1
+```
+
+### 3.拉取最新最新镜像(需要在tvs1根目录里面执行)
+
+```
+docker-compose pull
+```
+
+### 4.重启项目容器(需要在tvs1根目录里面执行)
+
+```
+docker-compose down
+```
+先执行完上面的指令，再执行下面的指令
+
+```
+docker-compose up -d
+```
+
+### 5.结束
+
+即可访问网站： `http://localhost:7788`
+
+### 6.温馨提示：
+
+请使用非大陆机部署，以免造成不必要的麻烦！
+例如：无法使用（即无法搜索） 或 无法访问
+
 ### Docker Compose
 
  `docker-compose.yml` 文件：
@@ -105,9 +146,3 @@ TVS1 支持标准的苹果 CMS V10 API 格式。添加自定义 API 时需遵循
 TVS1 仅作为视频搜索工具，不存储、上传或分发任何视频内容。所有视频均来自第三方 API 接口提供的搜索结果。如有侵权内容，请联系相应的内容提供方。
 
 本项目开发者不对使用本项目产生的任何后果负责。使用本项目时，您必须遵守当地的法律法规。
-
-## 💝 支持项目
-
-如果您想支持本项目，可以考虑进行捐款：
-
-[![捐赠](https://img.shields.io/badge/捐赠-UNICEF-1a85ff?style=for-the-badge&logo=unicef)](https://www.unicef.org/zh)
