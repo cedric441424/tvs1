@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="same-origin">
     <title>TVS1 播放器</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="./image/retrotv_5520.png">
-    <link rel="apple-touch-icon" href="./image/retrotv_5520.png">
+    <link rel="icon" href="image/logo.png">
+    <link rel="apple-touch-icon" href="image/logo-black.png">
     <link rel="manifest" href="manifest.json">
 
     <script src="libs/tailwindcss.min.js"></script>
@@ -15,16 +16,155 @@
     <script src="js/version-check.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/player.css">
+    
+    <!-- Add optimized player loading styles -->
+    <style>
+      /* Critical header and navigation styles */
+      .player-header {
+        position: relative;
+        z-index: 2147483647 !important;
+        pointer-events: auto !important;
+      }
+      
+      /* Critical loading styles to prevent FOUC */
+      .player-placeholder {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16/9 !important;
+        background-color: #1f2937 !important;
+        position: relative !important;
+        display: block !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+      }
+      
+      .player-loading-container {
+        width: 100% !important;
+        height: 0 !important;
+        padding-bottom: 56.25% !important;
+        position: relative !important;
+        background-color: #1f2937 !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        display: block !important;
+      }
+      
+      .player-loading-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background-color: rgba(17, 24, 39, 0.7) !important;
+      }
+      
+      .player-loading-spinner {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 50% !important;
+        position: relative !important;
+        margin-bottom: 16px !important;
+      }
+    
+      /* Critical styles for loading text */
+      .player-loading-text,
+      .player-loading-overlay div:nth-child(2),
+      div.player-loading-text {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: #f9fafb !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        margin-bottom: 8px !important;
+        text-align: center !important;
+        font-family: system-ui, -apple-system, sans-serif !important;
+        line-height: 1.4 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        pointer-events: none !important;
+        z-index: 100 !important;
+        background: transparent !important;
+        max-width: 90% !important;
+      }
+      
+      @keyframes player-spinner-rotate {
+        to { transform: rotate(360deg); }
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* ArtPlayer specific styles */
+      .art-video-player, .art-video-player video {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 150px !important;
+        max-height: 100vh !important;
+        background: #000 !important;
+        object-fit: contain !important;
+        position: relative !important;
+        display: block !important;
+      }
+    
+      /* Fix for Chrome-specific issues */
+      @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        .art-video-player video {
+          transform: translateZ(0) !important;
+          will-change: transform !important;
+        }
+    
+        /* Force visibility of video element */
+        .art-video-player.art-playing video {
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+      }
+
+      .player-header-fixed {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 10000000 !important;
+        pointer-events: auto !important;
+        background: #111;
+      }
+      #homeButton { pointer-events: auto !important; }
+      body { padding-top: 72px; }
+    </style>
+    
+    <!-- Loading indicator has been removed as requested -->
+    <script>
+      // Loading indicator initialization removed
+    </script>
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6a9dbbe7025171af204e14d2cb9ed0d7";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </head>
 <body>
-    <header class="bg-[#111] p-4 flex items-center border-b border-[#333] gap-2 player-header">
+    <header class="player-header-fixed p-4 flex items-center border-b border-[#333] gap-2">
         <div class="flex items-center min-w-0">
-            <a href="/" class="flex items-center min-w-0">
+            <button id="homeButton" type="button" class="flex items-center min-w-0 cursor-pointer" style="background:none;border:none;padding:0;">
                 <svg class="w-8 h-8 mr-2 text-[#00ccff] logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
                 <h1 class="text-xl font-bold gradient-text logo-text">TVS1</h1>
-            </a>
+            </button>
         </div>
         <h2 id="videoTitle" class="text-xl font-semibold flex-1 text-center overflow-x-auto whitespace-nowrap truncate custom-title-scroll"></h2>
         <a href="#" id="goBack" onclick="goBack(event)" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors flex items-center min-w-0 home-btn">
@@ -58,8 +198,14 @@
         <!-- 视频播放区 -->
         <div id="playerContainer" class="player-container">
             <div class="relative">
-                <div id="player"></div>
-                <div class="loading-container" id="loading">
+                <div id="player" class="player-placeholder" style="width: 100%; height: auto; aspect-ratio: 16/9; background-color: #1f2937; position: relative; display: block;">
+                    <!-- Initial loading state before JavaScript loads -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                        <div style="width: 48px; height: 48px; border: 4px solid rgba(255, 255, 255, 0.1); border-radius: 50%; border-top-color: #f97316; margin: 0 auto 16px; animation: spin 1s linear infinite;"></div>
+                        <div style="font-size: 16px; font-weight: 500;" id="loading-title">正在加载视频...</div>
+                    </div>
+                </div>
+                <div class="loading-container" id="loading" style="display: none;">
                     <div class="loading-spinner"></div>
                     <div>正在加载视频...</div>
                 </div>
@@ -159,7 +305,7 @@
     </script>
     
     <script src="libs/hls.min.js" crossorigin="anonymous"></script>
-    <script src="libs/DPlayer.min.js" crossorigin="anonymous"></script>
+    <script src="libs/artplayer.min.js" crossorigin="anonymous"></script>
 
     <script src="js/config.js"></script>
     <script src="js/password.js"></script>
@@ -172,58 +318,42 @@
         
         // 注入服务器端环境变量 (将由服务器端替换)
         // PASSWORD 变量将在这里被服务器端注入
-        window.__ENV__.PASSWORD = "{{PASSWORD}}";        // 改进返回上一页功能
-        function goBack(event) {
-            // 防止默认链接行为
-            if (event) event.preventDefault();
-            
-            // 1. 优先检查URL参数中的returnUrl
-            const urlParams = new URLSearchParams(window.location.search);
-            const returnUrl = urlParams.get('returnUrl');
-            
-            if (returnUrl) {
-                // 如果URL中有returnUrl参数，优先使用
-                window.location.href = decodeURIComponent(returnUrl);
-                return;
-            }
-            
-            // 2. 检查localStorage中保存的lastPageUrl
-            const lastPageUrl = localStorage.getItem('lastPageUrl');
-            if (lastPageUrl && lastPageUrl !== window.location.href) {
-                window.location.href = lastPageUrl;
-                return;
-            }
-            
-            // 3. 检查是否是从搜索页面进入的播放器
-            const referrer = document.referrer;
-            
-            // 检查 referrer 是否包含搜索参数
-            if (referrer && (referrer.includes('/s=') || referrer.includes('?s='))) {
-                // 如果是从搜索页面来的，返回到搜索页面
-                window.location.href = referrer;
-                return;
-            }
-            
-            // 4. 如果是在iframe中打开的，尝试关闭iframe
-            if (window.self !== window.top) {
-                try {
-                    // 尝试调用父窗口的关闭播放器函数
-                    window.parent.closeVideoPlayer && window.parent.closeVideoPlayer();
-                    return;
-                } catch (e) {
-                    console.error('调用父窗口closeVideoPlayer失败:', e);
+        window.__ENV__.PASSWORD = "{{PASSWORD}}";
+
+        // 修复 home 跳转
+        document.addEventListener('DOMContentLoaded', function() {
+            // 使用事件委托处理首页按钮点击
+            document.body.addEventListener('click', function(event) {
+                const homeButton = event.target.closest('#homeButton');
+                if (homeButton) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // 如果是在iframe中打开的，尝试关闭iframe
+                    if (window.self !== window.top) {
+                        try {
+                            // 尝试调用父窗口的关闭播放器函数
+                            window.parent.closeVideoPlayer && window.parent.closeVideoPlayer(true);
+                            return;
+                        } catch (e) {
+                            console.error('调用父窗口closeVideoPlayer失败:', e);
+                        }
+                    }
+
+                    // 多重兜底跳转
+                    try {
+                            window.location.href = '/';
+                    } catch (e) {
+                        try {
+                            window.location.replace('/');
+                        } catch (e2) {
+                            window.location.assign('/');
+                    }
+                    }
+                    return false;
                 }
-            }
-            
-            // 5. 无法确定上一页，则返回首页
-            if (!referrer || referrer === '') {
-                window.location.href = '/';
-                return;
-            }
-            
-            // 6. 以上都不满足，使用默认行为：返回上一页
-            window.history.back();
-        }
+            });
+        });
     </script>
 </body>
 </html>
